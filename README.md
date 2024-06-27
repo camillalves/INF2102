@@ -26,6 +26,7 @@ python anomaly_detection_ui.py
 ## Selecionar e configurar os métodos de detecção
 3. Após carregar a série temporal, uma nova seção será exibida para seleção e configuração dos métodos.
 4. Selecione os métodos desejados e ajuste os parâmetros conforme necessário. Os parâmetros padrão são:
+  - **IQR**
   - **Z-Score**: threshold = 3
   - **Média Móvel**: window = 5, threshold = 2
   - **LOF**: n_neighbors = 20, threshold = 1.5
