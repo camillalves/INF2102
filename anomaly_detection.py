@@ -6,13 +6,12 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from sklearn.cluster import KMeans
 import warnings
 
-
 class AnomalyDetection:
     def __init__(self, time_series, params):
         self.time_series = time_series
         self.params = params
 
-    # Método para detectar anomalias usando o IQR (Intervalo Interquartil)
+    # Método IQR
     def detect_iqr(self):
         q25, q75 = np.percentile(
             self.time_series, 25), np.percentile(self.time_series, 75)
@@ -23,7 +22,7 @@ class AnomalyDetection:
                      if x < lower_bound or x > upper_bound]
         return anomalies
 
-    # Método para detectar anomalias usando o Z-Score
+    # Método Z-Score
     def detect_z_score(self):
         threshold = float(self.params["Z-Score"]["threshold"])
         mean = np.mean(self.time_series)
@@ -32,7 +31,7 @@ class AnomalyDetection:
                      if abs((x - mean) / std_dev) > threshold]
         return anomalies
 
-    # Método para detectar anomalias usando Média Móvel
+    # Método Média Móvel
     def detect_moving_average(self):
         window = int(self.params["Média Móvel"]["window"])
         threshold = float(self.params["Média Móvel"]["threshold"])
@@ -41,7 +40,7 @@ class AnomalyDetection:
             x - moving_avg[i]) > threshold * np.std(self.time_series)]
         return anomalies
 
-    # Método para detectar anomalias usando LOF (Fator de Outlier Local)
+    # Método LOF
     def detect_lof(self):
         n_neighbors = int(self.params["LOF"]["n_neighbors"])
         threshold = float(self.params["LOF"]["threshold"])
@@ -51,7 +50,7 @@ class AnomalyDetection:
             zip(self.time_series, y_pred)) if pred == -1]
         return anomalies
 
-    # Método para detectar anomalias usando Decomposição Sazonal
+    # Método Decomposição Sazonal
     def detect_seasonal_decompose(self):
         model = self.params["Decomposição Sazonal"]["model"]
         period = int(self.params["Decomposição Sazonal"]["period"])
@@ -64,7 +63,7 @@ class AnomalyDetection:
             residual) if abs(x - mean_residual) > 3 * std_residual]
         return anomalies
 
-    # Método para detectar anomalias usando K-Means
+    # Método K-Means
     def detect_kmeans(self):
         n_clusters = int(self.params["K-Means"]["n_clusters"])
         threshold = float(self.params["K-Means"]["threshold"])
@@ -83,7 +82,7 @@ class AnomalyDetection:
                 reshaped_data) if distances[i] > mean_distance + threshold * std_distance]
         return anomalies
 
-    # Método para plotar as anomalias detectadas
+    # Método para plotar as anomalias
     def plot_anomalies(self, anomalies):
         plt.figure(figsize=(10, 6))
         plt.plot(self.time_series, label='Série Temporal')
@@ -96,7 +95,7 @@ class AnomalyDetection:
         plt.title('Detecção de Anomalias na Série Temporal')
         plt.show()
 
-    # Método para selecionar o método de detecção de anomalias
+    # Método para selecionar o método
     def detect_method(self, method):
         return {
             "IQR": self.detect_iqr,
@@ -107,7 +106,7 @@ class AnomalyDetection:
             "K-Means": self.detect_kmeans,
         }[method]()
 
-    # Método para comparar os métodos de detecção de anomalias
+    # Método para comparar os métodos
     def compare_methods(self, selected_methods):
         methods = {
             "IQR": self.detect_iqr,
