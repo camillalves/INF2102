@@ -4,7 +4,7 @@
 
 Python 3.6 ou superior instalado.
 
-Bibliotecas necessárias (instaladas via pip install -r requirements.txt)
+Bibliotecas necessárias instaladas.
 
 ## Passos:
 1. Faça o download ou clone o repositório para o seu ambiente local.
